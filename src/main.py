@@ -5,6 +5,7 @@ import os
 import json
 import logging.config
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.core.algorithm_collection import AlgorithmCollection, \
@@ -108,6 +109,28 @@ async def get_algorithm(algorithm_name: str) -> AnswerAlgorithmDefinition:
         logger.warning(str(error))
         answer.errors = str(error)
     return answer
+
+
+@app.get(ALGORITHMS_ENDPOINT + '/{algorithm_name}/download')
+async def get_algorithm_script(algorithm_name: str) -> FileResponse:
+    """Возвращает файл алгоритма по его имени.
+    
+    :param algorithm_name: имя алгоритма;
+    :type algorithm_name: str
+    :return: Файл алгоритма.
+    :rtype: FileResponse
+    """
+    logger.info(f'Request received. algorithm_name: {algorithm_name}')
+
+    if not algorithms.has_algorithm(algorithm_name):
+        logger.warning(ALGORITHM_NOT_EXISTS_TEMPL.format(algorithm_name))
+        return {"error": ALGORITHM_NOT_EXISTS_TEMPL.format(algorithm_name)}
+    try:
+        file_path = algorithms.get_algorithm_file_path(algorithm_name)
+        return FileResponse(file_path)
+    except Exception as error:
+        logger.warning(str(error))
+        return {"error": str(error)}
 
 
 @app.post(ALGORITHMS_ENDPOINT + '/{algorithm_name}')

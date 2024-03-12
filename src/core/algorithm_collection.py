@@ -24,6 +24,7 @@ class AlgorithmCollection:
         :type log_config: dict[str, Any]
         """
         self.__algorithms: dict[str, Algorithm] = {}
+        self.__path_config = path_config
         builder = AlgorithmBuilder(path_config['definition_file_name'],
                                    path_config['function_file_name'],
                                    path_config['test_file_name'],
@@ -93,3 +94,19 @@ class AlgorithmCollection:
         if algorithm_name not in self.__algorithms:
             raise ValueError(ALGORITHM_NOT_EXISTS_TEMPL.format(algorithm_name))
         return self.__algorithms[algorithm_name].execute(params)
+    
+    def get_algorithm_file_path(self, algorithm_name: str) -> str:
+        """Возвращает строчный путь файла алгоритма с указанным именем.
+
+        :param algorithm_name: имя алгоритма;
+        :type algorithm_name: str
+        :return: строка - путь к файлу алгоритма
+        :rtype: str
+        :raises ValueError: если алгоритм с указанным именем отсутствует;
+        :raises RuntimeError: если 
+        """
+        if algorithm_name not in self.__algorithms:
+            raise ValueError(ALGORITHM_NOT_EXISTS_TEMPL.format(algorithm_name))
+        
+        alg_file_path = self.__path_config['algorithms_catalog_path'] + '/' + algorithm_name + '/' + self.__path_config['function_file_name']
+        return alg_file_path
