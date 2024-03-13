@@ -5,7 +5,7 @@ from shutil import rmtree
 
 from src.core_tests import COLLECTION_FOLDER_PATH, PATH_CONFIG,\
     ALGORITHM_CONFIG, DEFINITION_FILE_NAME, FUNCTION_FILE_NAME, TEST_FILE_NAME,\
-    FIB_DEF, FIB_FUNC, FIB_TESTS, FIB_TITLE, LOG_CONFIG_STUB
+    FIB_DEF, FIB_FUNC, FIB_FILE_PATH, FIB_TESTS, FIB_TITLE, LOG_CONFIG_STUB
 from src.core.algorithm_collection import AlgorithmCollection, \
     NO_ALGORITHMS_MSG, ALGORITHM_NOT_EXISTS_TEMPL
 from src.core.algorithm import Algorithm
@@ -100,6 +100,15 @@ class AlgorithmCollectionTests(unittest.TestCase):
                                          LOG_CONFIG_STUB)
         self.assertFalse(algorithms.has_algorithm(wrong_name))
         self.assertTrue(algorithms.has_algorithm(name))
+
+    def test_get_algorithm_file_path(self):
+        name = 'name'
+        wrong_name = 'wrong_name'
+        self.create_files(name)
+        algorithms = AlgorithmCollection(self.path_config, ALGORITHM_CONFIG, LOG_CONFIG_STUB)
+
+        self.assertNotEqual(algorithms.get_algorithm_file_path(wrong_name), FIB_FILE_PATH)
+        self.assertEqual(algorithms.get_algorithm_file_path(name), FIB_FILE_PATH)
 
     def create_files(self, name: str) -> None:
         path = COLLECTION_FOLDER_PATH + '/' + name

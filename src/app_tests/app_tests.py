@@ -62,6 +62,18 @@ class AppTest(unittest.TestCase):
         for fact_output in fact_outputs.outputs:
             self.assertEqual(fact_output.value, output_dict[fact_output.name])
 
+    def test_get_algorithm_script(self):
+        response = AppTest.client.get(ALGORITHMS_ENDPOINT)
+        algs = Algorithms().parse_obj(response.json())
+        algorithm_name = algs.algorithms[0].name
+
+        response = AppTest.client.get(ALGORITHMS_ENDPOINT + f"/{algorithm_name}/download")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(len(response.content) > 0)
+        self.assertIn('Content-Disposition', response.headers)
+        self.assertIn('Content-Type', response.headers)
+        self.assertEqual(response.headers['Content-Type'], 'text/x-python')
+
 
 if __name__ == '__main__':
     unittest.main()
