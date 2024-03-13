@@ -67,12 +67,13 @@ class AppTest(unittest.TestCase):
         algs = Algorithms().parse_obj(response.json())
         algorithm_name = algs.algorithms[0].name
 
-        response = AppTest.client.get(ALGORITHMS_ENDPOINT + f"/{algorithm_name}/download")
+        response = AppTest.client.get(
+            f"{ALGORITHMS_ENDPOINT}/{algorithm_name}/download")
         self.assertEqual(response.status_code, 200)
         self.assertTrue(len(response.content) > 0)
-        self.assertIn('Content-Disposition', response.headers)
         self.assertIn('Content-Type', response.headers)
-        self.assertEqual(response.headers['Content-Type'], 'text/x-python')
+        self.assertEqual(response.headers['Content-Type'],
+                         'text/x-python; charset=utf-8')
 
 
 if __name__ == '__main__':

@@ -62,7 +62,8 @@ FIB_FUNC = """def fibonacci(n: int) -> int:
     return fibonacci(n - 1) + fibonacci(n - 2)
 def main(n: int):
     return {'result': fibonacci(n)}"""
-FIB_FILE_PATH = f'{PATH_CONFIG["algorithms_catalog_path"]}/fibonacci/{PATH_CONFIG["function_file_name"]}'
+FIB_FILE_PATH = f"{PATH_CONFIG['algorithms_catalog_path']}/fibonacci/{PATH_CONFIG['function_file_name']}"
+ALG_FILE_PATH_TEMPL = '{0}/{1}/' + PATH_CONFIG['function_file_name']
 FIB_TESTS = """import unittest
 from src.algorithms.fibonacci.function import fibonacci
 class TestCase(unittest.TestCase):

@@ -11,14 +11,16 @@ from app_tests.app_tests import AppTest
 if __name__ == '__main__':
     if os.path.exists(os.path.basename(__file__)):
         os.chdir('..')
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(DataShapeTests))
-    suite.addTest(unittest.makeSuite(DataTypeTests))
-    suite.addTest(unittest.makeSuite(DataElementTests))
-    suite.addTest(unittest.makeSuite(AlgorithmTests))
-    suite.addTest(unittest.makeSuite(AlgorithmBuilderTest))
-    suite.addTest(unittest.makeSuite(AlgorithmCollectionTests))
-    suite.addTest(unittest.makeSuite(AppTest))
+    loader = unittest.TestLoader()
+    suite = unittest.TestSuite([
+        loader.loadTestsFromTestCase(DataShapeTests),
+        loader.loadTestsFromTestCase(DataTypeTests),
+        loader.loadTestsFromTestCase(DataElementTests),
+        loader.loadTestsFromTestCase(AlgorithmTests),
+        loader.loadTestsFromTestCase(AlgorithmBuilderTest),
+        loader.loadTestsFromTestCase(AlgorithmCollectionTests),
+        loader.loadTestsFromTestCase(AppTest),
+    ])
 
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)

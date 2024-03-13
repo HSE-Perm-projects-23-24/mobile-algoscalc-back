@@ -108,5 +108,9 @@ class AlgorithmCollection:
         if algorithm_name not in self.__algorithms:
             raise ValueError(ALGORITHM_NOT_EXISTS_TEMPL.format(algorithm_name))
         
-        alg_file_path = self.__path_config['algorithms_catalog_path'] + '/' + algorithm_name + '/' + self.__path_config['function_file_name']
+        alg_file_path = '/'.join([
+            self.__path_config['algorithms_catalog_path'],
+            algorithm_name,
+            self.__path_config['function_file_name']
+        ])
         return alg_file_path
