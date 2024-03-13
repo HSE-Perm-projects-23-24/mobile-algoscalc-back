@@ -62,7 +62,7 @@ class AppTest(unittest.TestCase):
         for fact_output in fact_outputs.outputs:
             self.assertEqual(fact_output.value, output_dict[fact_output.name])
 
-    def test_get_algorithm_script(self):
+    def test_get_algorithm_file(self):
         response = AppTest.client.get(ALGORITHMS_ENDPOINT)
         algs = Algorithms().parse_obj(response.json())
         algorithm_name = algs.algorithms[0].name
