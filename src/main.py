@@ -112,7 +112,7 @@ async def get_algorithm(algorithm_name: str) -> AnswerAlgorithmDefinition:
 
 
 @app.get(ALGORITHMS_ENDPOINT + '/{algorithm_name}/download')
-async def get_algorithm_script(algorithm_name: str) -> FileResponse:
+async def get_algorithm_file(algorithm_name: str) -> FileResponse:
     """Возвращает файл алгоритма по его имени.
     
     :param algorithm_name: имя алгоритма;
